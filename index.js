@@ -19,6 +19,7 @@ async function run() {
     const usersCollection = client.db('iqraLaptopZoneDB').collection('users');
     const categoriesCollection = client.db('iqraLaptopZoneDB').collection('categories');
     const productsCollection = client.db('iqraLaptopZoneDB').collection('products');
+    const ordersCollection = client.db('iqraLaptopZoneDB').collection('orders');
 
     try {
         // users related api
@@ -46,21 +47,14 @@ async function run() {
             const query = {};
             const result = await categoriesCollection.find(query).toArray();
             res.send(result);
-        })
-
-        // app.get('/categories/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const query = { category_Id: id };
-        //     const result = await productsCollection.findOne(query);
-        //     res.send(result);
-        // })
+        });
 
         app.get('/categories/:id', async (req, res) => {
             const id = req.params.id;
             const query = { category_id: id }
             const result = await productsCollection.find(query).toArray();
             res.send(result);
-        })
+        });
 
         // products related api
         app.post('/products', async (req, res) => {
@@ -69,9 +63,12 @@ async function run() {
             res.send(result);
         });
 
-        // app.get('/products', async (req, res) => {
-        //     const query
-        // })
+        // orders related api
+        app.post('/orders', async (req, res) => {
+            const order = req.body;
+            const result = await ordersCollection.insertOne(order);
+            res.send(result);
+        })
 
     }
     finally {
