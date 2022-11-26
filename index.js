@@ -17,13 +17,13 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
 
     const usersCollection = client.db('iqraLaptopZoneDB').collection('users');
+    const categoriesCollection = client.db('iqraLaptopZoneDB').collection('categories');
     const productsCollection = client.db('iqraLaptopZoneDB').collection('products');
 
     try {
         // users related api
         app.post('/users', async (req, res) => {
             const user = req.body;
-            console.log(user);
             const result = await usersCollection.insertOne(user);
             res.send(result);
         });
@@ -41,13 +41,37 @@ async function run() {
             res.send(result);
         });
 
+        // categories related api
+        app.get('/categories', async (req, res) => {
+            const query = {};
+            const result = await categoriesCollection.find(query).toArray();
+            res.send(result);
+        })
+
+        // app.get('/categories/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const query = { category_Id: id };
+        //     const result = await productsCollection.findOne(query);
+        //     res.send(result);
+        // })
+
+        app.get('/categories/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { category_id: id }
+            const result = await productsCollection.find(query).toArray();
+            res.send(result);
+        })
+
         // products related api
         app.post('/products', async (req, res) => {
             const product = req.body;
-            console.log(product);
             const result = await productsCollection.insertOne(product);
             res.send(result);
-        })
+        });
+
+        // app.get('/products', async (req, res) => {
+        //     const query
+        // })
 
     }
     finally {
