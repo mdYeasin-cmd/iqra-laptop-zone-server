@@ -17,6 +17,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
 
     const usersCollection = client.db('iqraLaptopZoneDB').collection('users');
+    const productsCollection = client.db('iqraLaptopZoneDB').collection('products');
 
     try {
         // users related api
@@ -27,11 +28,27 @@ async function run() {
             res.send(result);
         });
 
-        app.get('/users', async (req, res) => {
+        app.get('/allUsers', async (req, res) => {
             const query = {};
             const result = await usersCollection.find(query).toArray();
             res.send(result);
+        });
+
+        app.get('/users', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
+            const result = await usersCollection.findOne(query);
+            res.send(result);
+        });
+
+        // products related api
+        app.post('/products', async (req, res) => {
+            const product = req.body;
+            console.log(product);
+            const result = await productsCollection.insertOne(product);
+            res.send(result);
         })
+
     }
     finally {
 
