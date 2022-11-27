@@ -105,6 +105,12 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/buyers', async (req, res) => {
+            const query = { userRole: 'buyer' };
+            const result = await usersCollection.find(query).toArray();
+            res.send(result);
+        })
+
     }
     finally {
 
