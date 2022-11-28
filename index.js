@@ -23,6 +23,13 @@ async function run() {
 
     try {
         // users related api
+        app.get('/users', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
+            const result = await usersCollection.findOne(query);
+            res.send(result);
+        });
+
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await usersCollection.insertOne(user);
@@ -32,13 +39,6 @@ async function run() {
         app.get('/allUsers', async (req, res) => {
             const query = {};
             const result = await usersCollection.find(query).toArray();
-            res.send(result);
-        });
-
-        app.get('/users', async (req, res) => {
-            const email = req.query.email;
-            const query = { email: email };
-            const result = await usersCollection.findOne(query);
             res.send(result);
         });
 
@@ -57,19 +57,6 @@ async function run() {
         });
 
         // products related api
-        app.post('/products', async (req, res) => {
-            const product = req.body;
-            const result = await productsCollection.insertOne(product);
-            res.send(result);
-        });
-
-        // orders related api
-        app.post('/orders', async (req, res) => {
-            const order = req.body;
-            const result = await ordersCollection.insertOne(order);
-            res.send(result);
-        });
-
         app.get('/products', async (req, res) => {
             const email = req.query.email;
             const query = { sellerEmail: email };
@@ -77,13 +64,11 @@ async function run() {
             res.send(result);
         });
 
-        app.delete('/products/:id', async (req, res) => {
-            const id = req.params.id;
-            console.log(id);
-            const query = { _id: ObjectId(id) };
-            const result = await productsCollection.deleteOne(query);
+        app.post('/products', async (req, res) => {
+            const product = req.body;
+            const result = await productsCollection.insertOne(product);
             res.send(result);
-        })
+        });
 
         app.put('/products/:id', async (req, res) => {
             const id = req.params.id;
@@ -99,11 +84,49 @@ async function run() {
             res.send(result);
         });
 
+        app.delete('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log(id);
+            const query = { _id: ObjectId(id) };
+            const result = await productsCollection.deleteOne(query);
+            res.send(result);
+        });
+
+        app.put('/reportedProducts/:id', async (req, res) => {
+            const id = req.params.id;
+            const body = req.body.isReported;
+            const query = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    isReported: body
+                }
+            };
+            const result = await productsCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
+
+        // orders related api
+        app.post('/orders', async (req, res) => {
+            const order = req.body;
+            const result = await ordersCollection.insertOne(order);
+            res.send(result);
+        });
+
+        // seller related api
         app.get('/sellers', async (req, res) => {
             const query = { userRole: 'seller' };
             const result = await usersCollection.find(query).toArray();
             res.send(result);
         });
+
+        app.get('/seller', async (req, res) => {
+            const email = req.query.email;
+            console.log(email);
+            const query = { email: email };
+            const result = await usersCollection.findOne(query);
+            res.send(result);
+        })
 
         app.delete('/sellers/:id', async (req, res) => {
             const id = req.params.id;
@@ -112,9 +135,31 @@ async function run() {
             res.send(result);
         })
 
+        app.put('/sellers/:id', async (req, res) => {
+            const id = req.params.id;
+            const body = req.body.isVerified;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    isVerified: body
+                }
+            };
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
+
+        // buyer related api
         app.get('/buyers', async (req, res) => {
             const query = { userRole: 'buyer' };
             const result = await usersCollection.find(query).toArray();
+            res.send(result);
+        })
+
+        app.delete('/buyers/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await usersCollection.deleteOne(query);
             res.send(result);
         })
 
