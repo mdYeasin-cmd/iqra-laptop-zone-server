@@ -2,12 +2,32 @@ const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const app = express();
 const port = process.env.PORT || 5000;
 
 // middleware
 app.use(cors());
 app.use(express.json());
+
+function verifyJWT(req, res, next) {
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).send({ message: 'unauthorized access' });
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    jwt.verify(token, process.env.ACCESS_TOKEN, function (err, decoded) {
+        if (err) {
+            return res.status(403).send({ message: 'Forbidden access' });
+        }
+        req.decoded = decoded;
+        next();
+    });
+
+}
 
 // Databse
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.0nieed1.mongodb.net/?retryWrites=true&w=majority`;
@@ -124,7 +144,34 @@ async function run() {
             const query = { email: email };
             const result = await ordersCollection.find(query).toArray();
             res.send(result);
-        })
+        });
+
+        app.get('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await ordersCollection.findOne(query);
+            res.send(result);
+        });
+
+        // payment related api
+        // app.post("/create-payment-intent", async (req, res) => {
+        //     const booking = req.body;
+        //     const price = booking.productPrice;
+        //     const amount = price * 100;
+
+        //     const paymentIntent = await stripe.paymentIntents.create({
+        //         currency: "usd",
+        //         amount: amount,
+        //         "payment_method_types": [
+        //             "card"
+        //         ],
+        //     });
+
+        //     res.send({
+        //         clientSecret: paymentIntent.client_secret,
+        //     });
+
+        // });
 
         // seller related api
         app.get('/sellers', async (req, res) => {
