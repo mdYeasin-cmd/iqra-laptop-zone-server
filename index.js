@@ -92,10 +92,16 @@ async function run() {
             res.send(result);
         });
 
+        app.get('/reportedProducts', async (req, res) => {
+            const query = { isReported: true };
+            const result = await productsCollection.find(query).toArray();
+            res.send(result);
+        })
+
         app.put('/reportedProducts/:id', async (req, res) => {
             const id = req.params.id;
             const body = req.body.isReported;
-            const query = { _id: ObjectId(id) };
+            const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updateDoc = {
                 $set: {
@@ -112,6 +118,13 @@ async function run() {
             const result = await ordersCollection.insertOne(order);
             res.send(result);
         });
+
+        app.get('/orders', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
+            const result = await ordersCollection.find(query).toArray();
+            res.send(result);
+        })
 
         // seller related api
         app.get('/sellers', async (req, res) => {
