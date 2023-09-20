@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const productsControllers = require('./../../controllers/products.controller');
+const uploader = require('../../middlewares/uploader');
 
 router
-    .route('/')
-    .get(productsControllers.getProductsByEmail)
-    .post(productsControllers.createAProduct);
+    .route('/file-upload')
+    .post(uploader.array("picture"), productsControllers.fileUpload);
 
 router
     .route('/reportedProducts')
@@ -16,8 +16,13 @@ router
     .put(productsControllers.reportAProduct);
 
 router
+    .route('/')
+    .get(productsControllers.getProductsByEmail)
+    .post(productsControllers.createAProduct);
+
+router
     .route('/:id')
-    .put(productsControllers.updateAProduct)
+    .patch(productsControllers.updateAProduct)
     .delete(productsControllers.deleteAProduct);
 
 module.exports = router;
