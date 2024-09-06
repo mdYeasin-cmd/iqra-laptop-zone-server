@@ -1,10 +1,10 @@
 const {
     getProductsByEmailService,
     createAProductService,
-    updateAProductService
+    updateAProductService,
 } = require("../services/products.service");
 const { productsCollection } = require("../utils/dbCollection");
-const { ObjectId } = require('mongodb');
+const { ObjectId } = require("mongodb");
 
 exports.getProductsByEmail = async (req, res) => {
     try {
@@ -12,18 +12,18 @@ exports.getProductsByEmail = async (req, res) => {
         const result = await getProductsByEmailService(email);
 
         res.status(200).json({
-            status: 'true',
+            status: "true",
             message: "Successfully get data using your given email",
-            data: result
+            data: result,
         });
     } catch (error) {
         res.status(400).json({
-            status: 'false',
+            status: "false",
             message: "Couldn't get any product using this email",
-            error: error.message
+            error: error.message,
         });
     }
-}
+};
 
 exports.createAProduct = async (req, res) => {
     try {
@@ -31,18 +31,18 @@ exports.createAProduct = async (req, res) => {
         const result = await createAProductService(product);
 
         res.status(201).json({
-            status: 'true',
+            status: "true",
             message: "Successfully create a new product.",
-            data: result
+            data: result,
         });
     } catch (error) {
         res.status(400).json({
-            status: 'false',
+            status: "false",
             message: "Can't create product here!",
-            error: error.message
+            error: error.message,
         });
     }
-}
+};
 
 exports.updateAProduct = async (req, res) => {
     try {
@@ -53,18 +53,18 @@ exports.updateAProduct = async (req, res) => {
         const result = await updateAProductService(id, body);
 
         res.status(201).json({
-            status: 'true',
+            status: "true",
             message: "Successfully updated the product.",
-            data: result
+            data: result,
         });
     } catch (error) {
         res.status(400).json({
-            status: 'false',
+            status: "false",
             message: "Can't updated the product.",
-            error: error.message
+            error: error.message,
         });
     }
-}
+};
 
 exports.deleteAProduct = async (req, res) => {
     const id = req.params.id;
@@ -72,7 +72,7 @@ exports.deleteAProduct = async (req, res) => {
     const query = { _id: ObjectId(id) };
     const result = await productsCollection.deleteOne(query);
     res.send(result);
-}
+};
 
 exports.reportAProduct = async (req, res) => {
     const id = req.params.id;
@@ -81,25 +81,27 @@ exports.reportAProduct = async (req, res) => {
     const options = { upsert: true };
     const updateDoc = {
         $set: {
-            isReported: body
-        }
+            isReported: body,
+        },
     };
-    const result = await productsCollection.updateOne(filter, updateDoc, options);
+    const result = await productsCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+    );
     res.send(result);
-}
+};
 
 exports.getAllReportedProducts = async (req, res) => {
     const query = { isReported: true };
     const result = await productsCollection.find(query).toArray();
     res.send(result);
-}
+};
 
 exports.fileUpload = async (req, res) => {
     try {
         res.status(201).json({
-            data: req.files
+            data: req.files,
         });
-    } catch (error) {
-        
-    }
-}
+    } catch (error) {}
+};

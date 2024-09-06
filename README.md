@@ -5,4 +5,3 @@
 <p>
     Iqra Laptop Zone is a laptop resale marketplace. 
 </p>
-

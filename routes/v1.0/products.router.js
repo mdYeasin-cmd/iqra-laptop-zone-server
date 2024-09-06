@@ -1,27 +1,25 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const productsControllers = require('./../../controllers/products.controller');
-const uploader = require('../../middlewares/uploader');
+const productsControllers = require("./../../controllers/products.controller");
+const uploader = require("../../middlewares/uploader");
 
 router
-    .route('/file-upload')
+    .route("/file-upload")
     .post(uploader.array("picture"), productsControllers.fileUpload);
 
 router
-    .route('/reportedProducts')
+    .route("/reportedProducts")
     .get(productsControllers.getAllReportedProducts);
 
-router
-    .route('/reportedProducts/:id')
-    .put(productsControllers.reportAProduct);
+router.route("/reportedProducts/:id").put(productsControllers.reportAProduct);
 
 router
-    .route('/')
+    .route("/")
     .get(productsControllers.getProductsByEmail)
     .post(productsControllers.createAProduct);
 
 router
-    .route('/:id')
+    .route("/:id")
     .patch(productsControllers.updateAProduct)
     .delete(productsControllers.deleteAProduct);
 

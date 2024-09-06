@@ -12,11 +12,11 @@ exports.getAllUsers = async (req, res) => {
         const result = await usersCollection.find(query).toArray();
         res.send(result);
     }
-}
+};
 
 // create a user
 exports.createAUser = async (req, res) => {
     const user = req.body;
     const result = await usersCollection.insertOne(user);
     res.send(result);
-}
+};
