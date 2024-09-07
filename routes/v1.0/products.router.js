@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const productsControllers = require("./../../controllers/products.controller");
-const uploader = require("../../middlewares/uploader");
 
 router
     .route("/file-upload")
-    .post(uploader.array("picture"), productsControllers.fileUpload);
+    .post(productsControllers.fileUpload);
 
 router
     .route("/reportedProducts")

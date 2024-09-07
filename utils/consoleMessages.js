@@ -1,3 +1,6 @@
 const chalk = require("chalk");
 
-exports.consoleMessageColor = chalk.bold.white.bgRed;
+const bgGreen = chalk.bold.white.bgGreen;
+const bgRed = chalk.bold.white.bgRed;
+
+module.exports = { bgGreen, bgRed };

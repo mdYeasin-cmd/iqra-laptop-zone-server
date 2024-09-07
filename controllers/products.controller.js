@@ -3,7 +3,7 @@ const {
     createAProductService,
     updateAProductService,
 } = require("../services/products.service");
-const { productsCollection } = require("../utils/dbCollection");
+// const { productsCollection } = require("../utils/dbCollection");
 const { ObjectId } = require("mongodb");
 
 exports.getProductsByEmail = async (req, res) => {
@@ -103,5 +103,5 @@ exports.fileUpload = async (req, res) => {
         res.status(201).json({
             data: req.files,
         });
-    } catch (error) {}
+    } catch (error) { }
 };

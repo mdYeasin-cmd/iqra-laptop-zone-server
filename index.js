@@ -1,18 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const errorHandler = require("./middlewares/errorHandler");
-const { consoleMessageColor } = require("./utils/consoleMessages");
-require("dotenv").config();
+const { bgGreen, bgRed } = require("./utils/consoleMessages");
+const dbConnect = require("./config/dbConnect");
+const config = require("./config");
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = config.port || 5001;
 
 // middleware
 app.use(cors());
 app.use(express.json());
 
 // all route of app
-app.use("/api/v1.0/categories", require("./routes/v1.0/categories.router"));
+app.use("/api/v1.0/brands", require("./routes/v1.0/brands.router"));
 app.use("/api/v1.0/users", require("./routes/v1.0/users.router"));
 app.use("/api/v1.0/products", require("./routes/v1.0/products.router"));
 app.use("/api/v1.0/orders", require("./routes/v1.0/orders.router"));
@@ -33,13 +34,17 @@ app.all("*", (req, res) => {
 app.use(errorHandler);
 
 // app listen here
-app.listen(port, () => {
-    console.log(
-        consoleMessageColor(
-            `Iqra Laptop Zone server is running on port ${port}`
-        )
-    );
-});
+dbConnect()
+    .then(() => {
+        app.listen(port, () => {
+            console.log(
+                bgGreen(
+                    `Iqra Laptop Zone server is running on port ${port}`
+                )
+            );
+        });
+    })
+    .catch(() => console.log(bgRed("Error occured while listening Iqra Laptop Zone server app")));
 
 // if express not handle any error then this will excute and close the app
 process.on("unhandledRejection", (error) => {

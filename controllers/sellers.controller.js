@@ -1,4 +1,4 @@
-const { usersCollection } = require("../utils/dbCollection");
+// const { usersCollection } = require("../utils/dbCollection");
 const { ObjectId } = require("mongodb");
 
 exports.getAllSellers = async (req, res) => {

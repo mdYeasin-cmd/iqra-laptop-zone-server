@@ -1,7 +1,20 @@
-const { usersCollection } = require("../utils/dbCollection");
+const { registerAUserIntoDB } = require("../services/users.service");
+
+// register a user
+const registerUser = async (req, res, next) => {
+    try {
+        const data = req.body;
+
+        const result = await registerAUserIntoDB(data);
+
+        res.status(201).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
 
 // get all user or query user using email
-exports.getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
     const email = req.query.email;
     if (email) {
         const query = { email: email };
@@ -14,9 +27,6 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-// create a user
-exports.createAUser = async (req, res) => {
-    const user = req.body;
-    const result = await usersCollection.insertOne(user);
-    res.send(result);
-};
+module.exports = {
+    registerUser
+}
