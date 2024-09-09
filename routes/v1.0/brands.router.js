@@ -1,6 +1,8 @@
 const express = require("express");
-const { addABrand, getAllBrands } = require("../../controllers/brands.controller");
-
+const {
+    addABrand,
+    getAllBrands,
+} = require("../../controllers/brands.controller");
 
 const router = express.Router();
 

@@ -6,5 +6,5 @@ const registerAUserIntoDB = async (data) => {
 };
 
 module.exports = {
-    registerAUserIntoDB
+    registerAUserIntoDB,
 };

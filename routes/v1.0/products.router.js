@@ -2,9 +2,7 @@ const express = require("express");
 const router = express.Router();
 const productsControllers = require("./../../controllers/products.controller");
 
-router
-    .route("/file-upload")
-    .post(productsControllers.fileUpload);
+router.route("/file-upload").post(productsControllers.fileUpload);
 
 router
     .route("/reportedProducts")

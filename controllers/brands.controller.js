@@ -1,4 +1,7 @@
-const { addABrandInotDB, getAllBrandsFromDB } = require("../services/brands.service");
+const {
+    addABrandInotDB,
+    getAllBrandsFromDB,
+} = require("../services/brands.service");
 
 const addABrand = async (req, res, next) => {
     try {
@@ -24,5 +27,5 @@ const getAllBrands = async (req, res, next) => {
 
 module.exports = {
     addABrand,
-    getAllBrands
+    getAllBrands,
 };

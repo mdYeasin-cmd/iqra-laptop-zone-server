@@ -38,13 +38,15 @@ dbConnect()
     .then(() => {
         app.listen(port, () => {
             console.log(
-                bgGreen(
-                    `Iqra Laptop Zone server is running on port ${port}`
-                )
+                bgGreen(`Iqra Laptop Zone server is running on port ${port}`)
             );
         });
     })
-    .catch(() => console.log(bgRed("Error occured while listening Iqra Laptop Zone server app")));
+    .catch(() =>
+        console.log(
+            bgRed("Error occured while listening Iqra Laptop Zone server app")
+        )
+    );
 
 // if express not handle any error then this will excute and close the app
 process.on("unhandledRejection", (error) => {

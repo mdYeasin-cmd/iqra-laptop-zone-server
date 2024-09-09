@@ -98,10 +98,16 @@ exports.getAllReportedProducts = async (req, res) => {
     res.send(result);
 };
 
-exports.fileUpload = async (req, res) => {
+const fileUpload = async (req, res) => {
     try {
         res.status(201).json({
             data: req.files,
         });
-    } catch (error) { }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+module.exports = {
+    fileUpload,
 };
