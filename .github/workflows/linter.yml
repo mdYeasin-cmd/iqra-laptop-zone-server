@@ -23,4 +23,4 @@ jobs:
               run: npm install
 
             - name: Lint JavaScript files
-              run: npm lint
+              run: npm run lint
