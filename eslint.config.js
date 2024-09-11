@@ -13,7 +13,7 @@ module.exports = [
                 __dirname: "readonly", // Node.js global
                 process: "readonly", // Node.js global
                 console: "readonly", // Node.js global
-                // exports: "readonly", // Node.js global
+                exports: "readonly", // Node.js global
             },
         },
         rules: {

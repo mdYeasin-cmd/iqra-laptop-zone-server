@@ -1,6 +1,11 @@
 // const Product = require("../models/Product");
 
-exports.createAProductService = async (data) => {
+const createAProductService = async (data) => {
+
+    if (data.id == 10) {
+        console.log("Test");
+    }
+
     const result = await Product.create(data);
     return result;
 };
@@ -18,3 +23,7 @@ exports.createAProductService = async (data) => {
 //     );
 //     return updatedProduct;
 // };
+
+module.exports = {
+    createAProductService
+}
