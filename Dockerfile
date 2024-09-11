@@ -17,14 +17,6 @@ WORKDIR /usr/src/app
 
 RUN npm run lint
 
-# for build
-
-FROM linter as builder
-
-WORKDIR /usr/src/app
-
-RUN npm run build
-
 
 # for production
 
@@ -36,8 +28,8 @@ COPY package*.json ./
 
 RUN npm install --only=production
 
-COPY --from=builder /usr/src/app/dist ./
+COPY --from=linter /usr/src/app ./
 
 EXPOSE 3000
 
-ENTRYPOINT ["node","./app.js"]
+ENTRYPOINT ["node","./index.js"]

@@ -6,7 +6,7 @@ const {
 // const { productsCollection } = require("../utils/dbCollection");
 const { ObjectId } = require("mongodb");
 
-exports.getProductsByEmail = async (req, res) => {
+const getProductsByEmail = async (req, res) => {
     try {
         const email = req.query.email;
         const result = await getProductsByEmailService(email);
@@ -25,7 +25,7 @@ exports.getProductsByEmail = async (req, res) => {
     }
 };
 
-exports.createAProduct = async (req, res) => {
+const createAProduct = async (req, res) => {
     try {
         const product = req.body;
         const result = await createAProductService(product);
@@ -44,7 +44,7 @@ exports.createAProduct = async (req, res) => {
     }
 };
 
-exports.updateAProduct = async (req, res) => {
+const updateAProduct = async (req, res) => {
     try {
         const id = req.params.id;
         console.log(req.body);
@@ -66,7 +66,7 @@ exports.updateAProduct = async (req, res) => {
     }
 };
 
-exports.deleteAProduct = async (req, res) => {
+const deleteAProduct = async (req, res) => {
     const id = req.params.id;
     console.log(id);
     const query = { _id: ObjectId(id) };
@@ -74,7 +74,7 @@ exports.deleteAProduct = async (req, res) => {
     res.send(result);
 };
 
-exports.reportAProduct = async (req, res) => {
+const reportAProduct = async (req, res) => {
     const id = req.params.id;
     const body = req.body.isReported;
     const filter = { _id: ObjectId(id) };
@@ -92,7 +92,7 @@ exports.reportAProduct = async (req, res) => {
     res.send(result);
 };
 
-exports.getAllReportedProducts = async (req, res) => {
+const getAllReportedProducts = async (req, res) => {
     const query = { isReported: true };
     const result = await productsCollection.find(query).toArray();
     res.send(result);
@@ -109,5 +109,11 @@ const fileUpload = async (req, res) => {
 };
 
 module.exports = {
+    getAllReportedProducts,
     fileUpload,
+    reportAProduct,
+    deleteAProduct,
+    updateAProduct,
+    createAProduct,
+    getProductsByEmail,
 };
