@@ -13,16 +13,18 @@ app.use(cors());
 app.use(express.json());
 
 // all route of app
-app.use("/api/v1.0/brands", require("./routes/v1.0/brands.router"));
-app.use("/api/v1.0/users", require("./routes/v1.0/users.router"));
-app.use("/api/v1.0/products", require("./routes/v1.0/products.router"));
-app.use("/api/v1.0/orders", require("./routes/v1.0/orders.router"));
-app.use("/api/v1.0/sellers", require("./routes/v1.0/sellers.router"));
-app.use("/api/v1.0/buyers", require("./routes/v1.0/buyers.router"));
+app.use("/api/v1/brands", require("./routes/v1.0/brands.router"));
+app.use("/api/v1/users", require("./routes/v1.0/users.router"));
+app.use("/api/v1/products", require("./routes/v1.0/products.router"));
+app.use("/api/v1/orders", require("./routes/v1.0/orders.router"));
+app.use("/api/v1/sellers", require("./routes/v1.0/sellers.router"));
+app.use("/api/v1/buyers", require("./routes/v1.0/buyers.router"));
 
 // testing route
 app.get("/", (req, res) => {
-    res.send("Iqra Laptop Zone server is running.");
+    res.status(200).json({
+        message: "Welcome to Iqra Laptop Zone server."
+    });
 });
 
 // 404 route

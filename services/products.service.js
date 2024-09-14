@@ -2,9 +2,9 @@
 
 const createAProductService = async (data) => {
 
-    if (data.id == 10) {
-        console.log("Test");
-    }
+    // if (data.id == 10) {
+    //     console.log("Test");
+    // }
 
     const result = await Product.create(data);
     return result;
